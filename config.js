@@ -9,6 +9,7 @@ const config = {
   "support": [],
 
   // Your Bot's Token. Available on https://discordapp.com/developers/applications/me
+//  "token": "NDg5ODIxNTE3MTQ4ODQ4MTM4.DnwVlA.6pACGt4K-yCuJ-OAUcJccuUIlgU",
   "token": process.env.TOKEN,
 
   // Theorycrafters API Key (Krylar)
