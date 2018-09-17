@@ -14,76 +14,52 @@ exports.run = async (client, message, args, level) => {
   };
 
   // get troop stats from TCR
-  var request = require("request")
+  // Get all of the rows from the spreadsheet.
+  client.tcrTroops.getRows(9, {offset: 3}, function (err, rows) {
+    rows.forEach(rr => {
+      console.log();
 
-  var url = "http://arkofwarguide.com/" + client.config.tckey + "/gen/" + troop;
+      // abbreviate troop types
+      var type1 = rr._cpzh4.replace('Infantry','INF').replace('Walker','WLK').replace('Airship','AIR');
+      var type2 = "";
+      if(rr._cre1l)
+        type2 = " / " + rr._cre1l.replace('Infantry','INF').replace('Walker','WLK').replace('Airship','AIR');
+      // 2nd type?
+//      type2 = "";
+//      if(rr._cre1l)
+//        type2 = " / " + rr._cre1l;
 
-  var err = 0;
+      // build output
+      msg = `
+Troop    : ${rr._cn6ca||""}
+Type     : ${type1}${type2}
+Tier     : ${rr._cokwr||""}
+Units    : ${rr._chk2m||""}
+Capacity : ${rr._ciyn3||""}
+HP       : ${rr._ckd7g||""}
+ATK      : ${rr._clrrx||""}
+DEF      : ${rr._cyevm||""}
+CRIT     : ${rr._cztg3||""}
+ACC      : ${rr._d180g||""}
+DOD      : ${rr._d2mkx||""}
+Food     : ${rr._cx0b9||""}
+Parts    : ${rr._d9ney||""}
+Electric : ${rr._db1zf||""}
+Gas      : ${rr._dcgjs||""}
+Cash     : ${rr._ddv49||""}
+SM       : ${rr._d415a||""}
+Rep      : ${rr._d5fpr||""}
+UC       : ${rr._d6ua4||""}
+Power    : ${rr._dw4je||""}
+KE       : ${rr._dxj3v||""}`;
 
-  request({
-    url: url,
-    json: true
-  }, function (error, response, body) {
-    if (!body.trpname) {
-      const cmd = client.commands.get("help");
-      message.channel.send(`Invalid troop name.`, {code:""});
-      cmd.run(client, message, ['troop'], level);
-      err = 1;
-      return;
-    }
+//      console.log(message);
+        message.channel.send(`\`\`\`\n${msg}\n\`\`\``);
+    }); // forEach
+  }); // getRows
+//});
 
-    if (!error && response.statusCode === 200) {
-      console.log(body); // Print the json response
-      body.trpname = body.trpname.trim();
-//      message.channel.send(`${body.trpname}`);
-/*      let title = '='.repeat(19 - body.trpname.trim().length / 2)
-        + ' ' + body.trpname.trim() + ' ' + '='.repeat(40 - (19 - body.trpname.trim().length / 2) - body.trpname.trim().length - 2);
-      troopType = troopType.substring(0,9);
-      let data1 = '    Tier | ' + body.tier.trim() + ' '.repeat(10 - body.tier.trim().length) + '    Type | ' + troopType;
-      let data1 = '    Tier | ' + body.tier.trim() + ' '.repeat(10 - body.tier.trim().length) + '    Type | ' + troopType;
-      message.channel.send(`${title}\n${data1}`, {code:"asciidoc"});
-*/
-      body.trptype = body.trptype.replace('Infantry','INF');
-      body.trptype = body.trptype.replace('Walker','WLK');
-      body.trptype = body.trptype.replace('Airship','AIR');
 
-      body.sectype = body.sectype.replace('Infantry','INF');
-      body.sectype = body.sectype.replace('Walker','WLK');
-      body.sectype = body.sectype.replace('Airship','AIR');
-
-//      let secondaryRss = 
-
-      let secType = "";
-      if(body.sectype) {
-        secType = " / " + body.sectype.trim();
-      }
-      if (err===0)
-        message.channel.send(`${message.author}
-\`\`\`
-Troop    : ${body.trpname.trim()}
-Type     : ${body.trptype.trim()}${secType}
-Tier     : ${body.tier.trim()}
-Units    : ${body.trpunits.trim()}
-Capacity : ${body.capacity.trim()}
-HP       : ${body.trphp.trim()}
-ATK      : ${body.atk.trim()}
-DEF      : ${body.def.trim()}
-CRIT     : ${body.critpercent.trim()}
-ACC      : ${body.accpercent.trim()}
-DOD      : ${body.dodpercent.trim()}
-Food     : ${body.food.trim()}
-Parts    : ${body.parts.trim()}
-Electric : ${body.ele.trim()}
-Gas      : ${body.gas.trim()}
-Cash     : ${body.cash.trim()}
-SM       : ${body.sm.trim()}
-Rep      : ${body.rep.trim()}
-UC       : ${body.ic.trim()}
-Power    : ${body.eventpower.trim()}
-KE       : ${body.killevent.trim()}
-\`\`\``);
-    }
-  })
 
 //  message.channel.send(`base = ${ba}`);
 };
@@ -92,12 +68,12 @@ exports.conf = {
   enabled: true,
   guildOnly: true,
   aliases: [],
-  permLevel: "User"
+  permLevel: "Admin"
 };
 
 exports.help = {
   name: "troop",
   category: "Reference",
   description: "Get troop stats",
-  usage: "troop <troop name>"
+  usage: "troop"
 };

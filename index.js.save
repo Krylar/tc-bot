@@ -14,9 +14,13 @@ const Enmap = require("enmap");
 //const EnmapLevel = require("enmap-level");
 const EnmapLevel = require("enmap-sqlite");
 
-// GoogleSpreadsheet
-const GoogleSpreadsheet = require('google-spreadsheet');
+var GoogleSpreadsheet = require('google-spreadsheet');
 var creds = require('./client_secret.json');
+
+// Create a document object using the ID of the spreadsheet - obtained from its URL.
+var doc = new GoogleSpreadsheet('1ymnFE-wVxEqNV4CkoEHVowKcGHZYGouOUk_wCRBNzL4');
+
+
 
 // This is your client. Some people call it `bot`, some people call it `self`,
 // some might call it `cootchie`. Either way, when you see `client.something`,
@@ -44,22 +48,6 @@ client.aliases = new Enmap();
 // essentially saves a collection to disk. This is great for per-server configs,
 // and makes things extremely easy for this purpose.
 client.settings = new Enmap({provider: new EnmapLevel({name: "settings", dataDir: './.data'})});
-
-// Create a document object using the ID of the spreadsheet - obtained from its URL.
-client.tcrTroops = new GoogleSpreadsheet('1ymnFE-wVxEqNV4CkoEHVowKcGHZYGouOUk_wCRBNzL4');
-//var doc = new GoogleSpreadsheet('1tO3BDTA0Ix1dIj7JayA0nrX3wmh4PN7l8139Il11aK8');
-
-// Authenticate with the Google Spreadsheets API.
-client.tcrTroops.useServiceAccountAuth(creds, function (err) {
-
-    client.tcrTroops.getInfo(function(err, info) {
-//      console.log('Loaded doc: '+info.title+' by '+info.author.email);
-      sheet = info.worksheets[8];
-//      console.log('sheet 1: '+sheet.title+' '+sheet.rowCount+'x'+sheet.colCount);
-    });
-});
-
-
 
 // We're doing real fancy node 8 async/await stuff here, and to do that
 // we need to wrap stuff in an anonymous function. It's annoying but it works.
