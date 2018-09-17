@@ -6,6 +6,10 @@ exports.run = async (client, message, args, level) => {
     message.channel.send(`Missing argument!`)
   }
 */
+  chan = message.guild.channels.find("name","tc-troops");
+  message.reply(`tctroop is no longer interactive. See ${chan}`);
+
+if(level >= 9) {
   let troop = args[0];
   if(args.length >>> 1) {
     troop = args.join(" ")
@@ -59,7 +63,7 @@ KE       : ${rr._dxj3v||""}`;
   }); // getRows
 //});
 
-
+}
 
 //  message.channel.send(`base = ${ba}`);
 };
