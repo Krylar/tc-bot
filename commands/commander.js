@@ -19,12 +19,6 @@ if(level >= 9) {
 
   // get troop stats from TCR
   // Get all of the rows from the spreadsheet.
-  // ***** INCOMPLETE: Get ID of tab *****
-  client.tcrTroops.getInfo(function(err, info) {
-    sheet = info.worksheets[0];
-  });
-
-
   client.tcrTroops.getRows(9, {offset: 3}, function (err, rows) {
     rows.forEach(rr => {
       console.log();
@@ -77,13 +71,13 @@ KE       : ${rr._dxj3v||""}`;
 exports.conf = {
   enabled: true,
   guildOnly: true,
-  aliases: [],
+  aliases: ["com"],
   permLevel: "Admin"
 };
 
 exports.help = {
-  name: "troop",
+  name: "commander",
   category: "Reference",
-  description: "Get troop stats",
-  usage: "troop"
+  description: "Get commander info",
+  usage: "commander <name>"
 };

@@ -53,9 +53,11 @@ client.tcrTroops = new GoogleSpreadsheet('1ymnFE-wVxEqNV4CkoEHVowKcGHZYGouOUk_wC
 client.tcrTroops.useServiceAccountAuth(creds, function (err) {
 
     client.tcrTroops.getInfo(function(err, info) {
-//      console.log('Loaded doc: '+info.title+' by '+info.author.email);
-      sheet = info.worksheets[8];
-//      console.log('sheet 1: '+sheet.title+' '+sheet.rowCount+'x'+sheet.colCount);
+      console.log('Loaded doc: '+info.title+' by '+info.author.email);
+      sheet = info.worksheets.find(n => n.title === "REF_Troops");
+      console.log('sheet 1: '+sheet.title+' '+sheet.rowCount+'x'+sheet.colCount);
+      console.log("id: " + client.tcrTroops.worksheets[9].id);
+      console.log("Keys: " + Object.keys(client.tcrTroops.worksheets[9]));
     });
 });
 

@@ -14,10 +14,11 @@ exports.run = async (client, message, args, level) => {
   var msg = "";
 
   // Load TCR
-  client.tcrTroops.getRows(9, {query: `_cokwr = ${targetTier}`}, function (err, rows) {
+  ndx = client.tcrTroops.worksheets.findIndex(n => n.title === "REF_Troops");
+  client.tcrTroops.getRows(ndx+1, {query: `_cokwr = ${targetTier}`}, function (err, rows) {
 //    console.log(rows.length);
     rows.forEach(rr => {
-      console.log(rr._cn6ca);
+//      console.log(rr._cn6ca);
       numKills = Math.floor(0.005 * leadership * skillLevel / rr._chk2m);
 //      console.log(`numKills: ${numKills}`);
       type = rr._cpzh4.replace('Infantry','INF').replace('Walker','WLK').replace('Airship','AIR');
@@ -25,7 +26,7 @@ exports.run = async (client, message, args, level) => {
       msg += `\n- ${numKills}x ${rr._cn6ca} \(T${targetTier} ${type}\)`;
 //      console.log(msg);
     }); // forEach
-  console.log(msg);
+//  console.log(msg);
 
   message.reply(`${leadership} leadership with level ${skillLevel} iTS skill can kill:${msg}`);
   }); // getRows
