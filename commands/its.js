@@ -15,15 +15,15 @@ exports.run = async (client, message, args, level) => {
 
   // Load TCR
   ndx = client.tcrTroops.worksheets.findIndex(n => n.title === "REF_Troops");
-  client.tcrTroops.getRows(ndx+1, {query: `_cokwr = ${targetTier}`}, function (err, rows) {
+  client.tcrTroops.getRows(ndx+1, {query: `tier = ${targetTier}`}, function (err, rows) {
 //    console.log(rows.length);
     rows.forEach(rr => {
 //      console.log(rr._cn6ca);
-      numKills = Math.floor(0.005 * leadership * skillLevel / rr._chk2m);
+      numKills = Math.floor(0.005 * leadership * skillLevel / (rr.units||-1));
 //      console.log(`numKills: ${numKills}`);
-      type = rr._cpzh4.replace('Infantry','INF').replace('Walker','WLK').replace('Airship','AIR');
+      type = rr.type.replace('Infantry','INF').replace('Walker','WLK').replace('Airship','AIR');
 //      console.log(`type: ${type}`);
-      msg += `\n- ${numKills}x ${rr._cn6ca} \(T${targetTier} ${type}\)`;
+      msg += `\n- ${numKills<1 ? "??" : numKills}x ${rr.troop} \(T${targetTier} ${type}\)`;
 //      console.log(msg);
     }); // forEach
 //  console.log(msg);

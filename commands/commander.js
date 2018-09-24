@@ -1,83 +1,56 @@
+// Load up the discord.js library
+const Discord = require("discord.js");
+//const RichEmbed = require('discord.js');
+
 exports.run = async (client, message, args, level) => {
   const friendly = client.config.permLevels.find(l => l.level === level).name;
   //message.reply(`Your permission level is: ${level} - ${friendly}`);
 
- /* if(args.length <<< 1) {
-    message.channel.send(`Missing argument!`)
-  }
-*/
-  chan = message.guild.channels.find("name","tc-troops");
-  message.reply(`tctroop is no longer interactive. See ${chan}`);
-
-if(level >= 9) {
-  let troop = args[0];
-  if(args.length >>> 1) {
-    troop = args.join(" ")
-//    message.channel.send(troop);
-//    return;
+  if(args.length != 1) {
+    message.channel.send(`Need exactly 1 argument!`);
+    return;
   };
+  let com = args[0];
+  var type = "";
+  var msg = "";
 
-  // get troop stats from TCR
-  // Get all of the rows from the spreadsheet.
-  client.tcrTroops.getRows(9, {offset: 3}, function (err, rows) {
+  // Load TCR
+  ndx = client.tcrTroops.worksheets.findIndex(n => n.title === "REF_Commanders");
+  client.tcrTroops.getRows(ndx+1, {query: `name = ${com}`}, function (err, rows) {
+//    console.log(rows.length);
     rows.forEach(rr => {
-      console.log();
-
-      // abbreviate troop types
-      var type1 = rr._cpzh4.replace('Infantry','INF').replace('Walker','WLK').replace('Airship','AIR');
-      var type2 = "";
-      if(rr._cre1l)
-        type2 = " / " + rr._cre1l.replace('Infantry','INF').replace('Walker','WLK').replace('Airship','AIR');
-      // 2nd type?
-//      type2 = "";
-//      if(rr._cre1l)
-//        type2 = " / " + rr._cre1l;
-
-      // build output
-      msg = `
-Troop    : ${rr._cn6ca||""}
-Type     : ${type1}${type2}
-Tier     : ${rr._cokwr||""}
-Units    : ${rr._chk2m||""}
-Capacity : ${rr._ciyn3||""}
-HP       : ${rr._ckd7g||""}
-ATK      : ${rr._clrrx||""}
-DEF      : ${rr._cyevm||""}
-CRIT     : ${rr._cztg3||""}
-ACC      : ${rr._d180g||""}
-DOD      : ${rr._d2mkx||""}
-Food     : ${rr._cx0b9||""}
-Parts    : ${rr._d9ney||""}
-Electric : ${rr._db1zf||""}
-Gas      : ${rr._dcgjs||""}
-Cash     : ${rr._ddv49||""}
-SM       : ${rr._d415a||""}
-Rep      : ${rr._d5fpr||""}
-UC       : ${rr._d6ua4||""}
-Power    : ${rr._dw4je||""}
-KE       : ${rr._dxj3v||""}`;
-
-//      console.log(message);
-        message.channel.send(`\`\`\`\n${msg}\n\`\`\``);
+//      console.log(rr._cn6ca);
+      type = rr.triggertype3.replace('Infantry','INF').replace('Walker','WLK').replace('Airship','AIR');
+//      console.log(`type: ${type}`);
+//      msg += `\n- ${numKills}x ${rr._cn6ca} \(T${targetTier} ${type}\)`;
+      msg = new Discord.RichEmbed()
+        .setTitle(`${rr.name} (${rr.class})`)
+        .addField(`[1] ${rr.skill1} <${rr.triggertype1}>`,`${rr.description1}`)
+        .addField(`[2] ${rr.skill2} <${rr.triggertype2}>`,`${rr.description2}`)
+        .addField(`[3] ${rr.skill3} <${rr.triggertype3}>`,`${rr.description3}`)
+        .addField(`How to Obtain:`, `${rr.howtoobtain}`)
+        .setThumbnail(rr.imgsrc)
+        ;
+//      console.log(msg);
     }); // forEach
+
+    console.log("Com Keys: " + Object.keys(rows[0]));
+//  console.log(msg);
+
+    message.reply(msg);
   }); // getRows
-//});
-
-}
-
-//  message.channel.send(`base = ${ba}`);
 };
 
 exports.conf = {
   enabled: true,
   guildOnly: true,
   aliases: ["com"],
-  permLevel: "Admin"
+  permLevel: "Bot Owner"
 };
 
 exports.help = {
   name: "commander",
-  category: "Reference",
-  description: "Get commander info",
-  usage: "commander <name>"
+  category: "TCR Info",
+  description: "Commander info",
+  usage: "commander <commander name>"
 };
