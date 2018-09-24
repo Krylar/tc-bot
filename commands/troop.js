@@ -2,7 +2,7 @@ exports.run = async (client, message, args, level) => {
   const friendly = client.config.permLevels.find(l => l.level === level).name;
   //message.reply(`Your permission level is: ${level} - ${friendly}`);
 
-  chan = message.guild.channels.find("name","tc-troops");
+  chan = message.guild.channels.find(c => c.name === "tc-troops");
   if(message.channel.id != chan.id) {
     message.reply(`TCR Troops stat dump is restricted to ${chan}!`);
     return;
