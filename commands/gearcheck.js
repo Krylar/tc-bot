@@ -38,7 +38,7 @@ Base stat:: ${base}%
 exports.conf = {
   enabled: true,
   guildOnly: true,
-  aliases: [],
+  aliases: ["gc"],
   permLevel: "User"
 };
 

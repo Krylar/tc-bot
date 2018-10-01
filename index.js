@@ -61,6 +61,15 @@ client.tcrTroops.useServiceAccountAuth(creds, function (err) {
     });
 });
 
+// express web server for UptimeRobot
+var express = require('express');
+var app = express();
+
+app.get('/', function(req, res){
+  res.send('hello world');
+});
+
+app.listen(3000);
 
 
 // We're doing real fancy node 8 async/await stuff here, and to do that
