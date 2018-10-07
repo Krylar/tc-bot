@@ -26,7 +26,7 @@ module.exports = (client, message) => {
         imageFormat: 'image/png', // Image Type (Only png ou gif is acceptable at the moment i w$
         isOverlayRequired: true
       };
-
+      imageFormat = 'image/' + a.url.split(".").pop();
       ocrSpaceApi.parseImageFromUrl(a.url, options)
         .then(function (parsedResult) {
 //          console.log('parsedText: \n', parsedResult.parsedText);
