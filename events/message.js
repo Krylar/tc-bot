@@ -1,3 +1,7 @@
+const ocrSpaceApi = require('ocr-space-api');
+require('dotenv').config();
+
+
 // The MESSAGE event runs anytime a message is received
 // Note that due to the binding of client to every event, every event
 // goes `client, other, args` when this function is run.
@@ -10,6 +14,31 @@ module.exports = (client, message) => {
   // Grab the settings for this server from Enmap.
   // If there is no guild, get default conf (DMs)
   const settings = message.settings = client.getGuildSettings(message.guild);
+
+  // ***** OCR search *****
+  if(message.channel.name == "albums") {
+    message.attachments.forEach(a => {
+      console.log(`new attachment: ${a.url}`);
+      // Run and wait the result
+      var options =  {
+        apikey: process.env.OCRSPACEKEY,
+        language: 'eng', // Português
+        imageFormat: 'image/png', // Image Type (Only png ou gif is acceptable at the moment i w$
+        isOverlayRequired: true
+      };
+
+      ocrSpaceApi.parseImageFromUrl(a.url, options)
+        .then(function (parsedResult) {
+//          console.log('parsedText: \n', parsedResult.parsedText);
+//          console.log('ocrParsedResult: \n', parsedResult.ocrParsedResult);
+          message.reply("OCR Text:\n```\n" + parsedResult.parsedText + "\n```");
+        }).catch(function (err) {
+          console.log('ERROR:', err);
+        });
+    });
+  }
+  // ********************
+
 
   // Also good practice to ignore any message that does not start with our prefix,
   // which is set in the configuration file.
