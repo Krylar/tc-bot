@@ -17,6 +17,7 @@ module.exports = (client, message) => {
 
   // ***** OCR search *****
   if(message.channel.name == "albums") {
+    console.log("message detected!");
     message.attachments.forEach(a => {
       console.log(`new attachment: ${a.url}`);
       // Run and wait the result
