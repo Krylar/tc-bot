@@ -20,7 +20,8 @@ exports.run = async (client, message, args, level) => {
 
   // Load TCR
   ndx = client.tcrTroops.worksheets.findIndex(n => n.title === "REF_Skills");
-  client.tcrTroops.getRows(ndx+1, {query: `skill = "${com}"`}, function (err, rows) {
+  client.tcrTroops.getRows(ndx+1, {offset: 1}, function (err, rows) {
+//  client.tcrTroops.getRows(ndx+1, {query: `skill = "${com}"`}, function (err, rows) {
     //console.log(rows.length);
     if(rows.size << 1) {
       message.reply("Cannot find that skill!");
@@ -28,16 +29,8 @@ exports.run = async (client, message, args, level) => {
     }
 //    else console.log(`==> Commander: ${rows[0].name}`);
     rows.forEach(rr => {
-      console.log(`==> Commander: ${rows[0].skill}`);
+      console.log(`==> Commander: ${rr.skill}`);
 
-      // find skill post in #tc-skills
-/*      const filter = m => m.content.includes('discord');
-      const collector = channel.createMessageCollector(filter, { time: 15000 });
-      collector.on('collect', m => console.log(`Collected ${m.content}`));
-      collector.on('end', collected => console.log(`Collected ${collected.size} items`));
-*/
-
-//      type = rr.triggertype3.replace('Infantry','INF').replace('Walker','WLK').replace('Airship','AIR');
       type = rr.triggertype;
       event10chance = "";
 
@@ -66,10 +59,8 @@ exports.run = async (client, message, args, level) => {
         .addField("Defensive Stance Exempt?", `${rr.defensivestanceexempt.replace(/.+/,"Yes")||"No"}`)
         .addField("Stacks?", `${rr.stacks.replace(/.+/,"Yes")||"No"}`)
         ;
-//      console.log(msg);
+      message.channel.send(msg);
     }); // forEach
-
-    message.channel.send(msg);
 
   }); // getRows
 };

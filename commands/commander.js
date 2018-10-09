@@ -20,25 +20,13 @@ exports.run = async (client, message, args, level) => {
 
   // Load TCR
   ndx = client.tcrTroops.worksheets.findIndex(n => n.title === "REF_Commanders");
-  client.tcrTroops.getRows(ndx+1, {query: `name = "${com}"`}, function (err, rows) {
-    //console.log(rows.length);
-    if(rows.size << 1) {
-      message.reply("Cannot find that commander!");
-      err=1;
-    }
-//    else console.log(`==> Commander: ${rows[0].name}`);
+//  client.tcrTroops.getRows(ndx+1, {query: `name = "${com}"`}, function (err, rows) {
+  client.tcrTroops.getRows(ndx+1, {offset: 1}, function (err, rows) {
+    console.log(rows.length);
+
     rows.forEach(rr => {
-      console.log(`==> Commander: ${rows[0].name}`);
+      console.log(`==> Commander: ${rr.name}`);
 
-      // find skill post in #tc-skills
-      chSkill.fetchMessages()
-        .then(messages => {
-          link1 = messages.filter(m => m.embeds[0].author == rr.skill1);
-          message.reply("Skill link: " + Object.keys(link1));
-        })
-        .catch(console.error);
-
-//      type = rr.triggertype3.replace('Infantry','INF').replace('Walker','WLK').replace('Airship','AIR');
       type = rr.triggertype3;
       event10chance = "";
 
@@ -71,18 +59,18 @@ exports.run = async (client, message, args, level) => {
 //        .addField(`${rr.skill1}`,`**Lv. 1**\n__**${rr.triggertype1}**__ ${rr.description1}`)
 //        .addField(`${rr.skill2}`,`**Lv. 1**\n__**${rr.triggertype2}**__ ${rr.description2}`)
 //        .addField(`${rr.skill3}`,`**Lv. 1**\n__**${rr.triggertype3}**__ ${rr.description3}`)
-        .addField(`1 - ${rr.skill1} <${rr.triggertype1}>`,`${rr.description1}`)
-        .addField(`2 - ${rr.skill2} <${rr.triggertype2}>`,`${rr.description2}`)
-        .addField(`3 - ${rr.skill3} <${rr.triggertype3}>`,`${rr.description3}`)
+        .addField(`1 - ${rr.skill1} <${rr.triggertype1||""}> (Lv.1)`,`${rr.description1||""}`)
+        .addField(`2 - ${rr.skill2} <${rr.triggertype2||""}> (Lv.1)`,`${rr.description2||""}`)
+        .addField(`3 - ${rr.skill3} <${rr.triggertype3||""}> (Lv.1)`,`${rr.description3||""}`)
         .addField(`How to Obtain:`, `${rr.howtoobtain + event10chance||"?"}`)
         ;
 //      console.log(msg);
+    message.channel.send(msg);
     }); // forEach
 
 //    console.log("Com Keys: " + Object.keys(rows[0]));
 //  console.log(msg);
 
-    message.channel.send(msg);
 
   }); // getRows
 };
