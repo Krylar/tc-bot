@@ -44,7 +44,9 @@ exports.run = async (client, message, args, level) => {
       else if(type == "Airship")
 //        color = 0x9B2928; // dark red
         color = 0xEC5B58; // light red
-      else color = 0;
+      else if(type == "All")
+        color = 0xF0DA8E; // yellow
+      else color = 0; // black
 
       msg = new Discord.RichEmbed()
         .setAuthor(`${rr.skill||""}`)
