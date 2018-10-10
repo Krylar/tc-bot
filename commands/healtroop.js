@@ -44,8 +44,10 @@ const numberWithCommas = (x) => {
       else if(totalUnits >= 201) modifier = 0.15;
       else modifier = 0.10;
 
-      msg = `Healing ${quantity}x ${rr.troop} (T${rr.tier} ${rr.type}):`;
-      msg += `\nTotal Units: ${totalUnits} @ ${modifier*100}% of training costs`;
+      msg = `\`\`\`\nHealing ${quantity}x ${rr.troop} (T${rr.tier} ${rr.type}):`;
+      msg += '\nTotal Units: '
+          + numberWithCommas(totalUnits)
+          + ` @ ${modifier*100}% of training costs`;
       if(rr.food) {
         n = Math.ceil(parseInt(rr.food.replace(/,/g,'')) * quantity * modifier);
         msg += '\nFood: ' + numberWithCommas(n);
@@ -78,7 +80,7 @@ const numberWithCommas = (x) => {
         n = Math.ceil(parseInt(rr.hc.replace(/,/g,'')) * quantity * modifier);
         msg += '\nHC: ' + numberWithCommas(n);
       }
-
+      msg += "\n```";
       message.reply(msg);
     }); // forEach
 
