@@ -48,6 +48,24 @@ exports.run = async (client, message, args, level) => {
         color = 0xF0DA8E; // yellow
       else color = 0; // black
 
+      // Sure Hit?
+      var isSureHit;
+      if(rr.surehit == "Y") isSureHit = "Yes"
+      else if(rr.surehit == "N") isSureHit = "No"
+      else isSureHit = "???";
+
+      // iTS?
+      var isIts;
+      if(rr.tiersuppressionexempt == "Y") isIts = "Yes"
+      else if(rr.rr.tiersuppressionexempt == "N") isIts = "No"
+      else isIts = "???";
+
+      // Defensive Stance Exempt?
+      var isIds;
+      if(rr.defensivestanceexempt == "Y") isIds = "Yes"
+      else if(rr.defensivestanceexempt == "N") isSIds = "No"
+      else isIds = "???";
+
       // stacks?
       var isStackable;
       if(rr.stacks == "Y") isStackable = "Yes"
@@ -62,9 +80,9 @@ exports.run = async (client, message, args, level) => {
         .setColor(color)
         .setDescription(rr.description)
         .addField("Scale", `${rr.scale} (${parseFloat(rr.scale) * 60}% @ Lv.60)` )
-        .addField("Sure Hit?", `${rr.surehit.replace(/.+/,"Yes")||"No"}`)
-        .addField("Ignore Tier Suppression? (iTS)", `${rr.tiersuppressionexempt.replace(/.+/,"Yes")||"No"}`)
-        .addField("Defensive Stance Exempt?", `${rr.defensivestanceexempt.replace(/.+/,"Yes")||"No"}`)
+        .addField("Sure Hit?", isSureHit)
+        .addField("Ignore Tier Suppression? (iTS)", isIts)
+        .addField("Defensive Stance Exempt?", isIds)
         .addField("Stacks?", isStackable)
         ;
       message.channel.send(msg);
