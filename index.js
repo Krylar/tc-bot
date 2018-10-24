@@ -24,6 +24,9 @@ var creds = require('./client_secret.json');
 // or `bot.something`, this is what we're refering to. Your client.
 const client = new Discord.Client();
 
+// db for logging & usage metrics
+client.logdb = require('better-sqlite3')('.data/logs.db');
+
 // Here we load the config file that contains our token and our prefix values.
 client.config = require("./config.js");
 // client.config.token contains the bot's token

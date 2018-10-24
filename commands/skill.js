@@ -48,6 +48,12 @@ exports.run = async (client, message, args, level) => {
         color = 0xF0DA8E; // yellow
       else color = 0; // black
 
+      // stacks?
+      var isStackable;
+      if(rr.stacks == "Y") isStackable = "Yes"
+      else if(rr.stacks == "N") isStackable = "No"
+      else isStackable = "???";
+
       msg = new Discord.RichEmbed()
         .setAuthor(`${rr.skill||""}`)
         .setTitle(type)
@@ -59,7 +65,7 @@ exports.run = async (client, message, args, level) => {
         .addField("Sure Hit?", `${rr.surehit.replace(/.+/,"Yes")||"No"}`)
         .addField("Ignore Tier Suppression? (iTS)", `${rr.tiersuppressionexempt.replace(/.+/,"Yes")||"No"}`)
         .addField("Defensive Stance Exempt?", `${rr.defensivestanceexempt.replace(/.+/,"Yes")||"No"}`)
-        .addField("Stacks?", `${rr.stacks.replace(/.+/,"Yes")||"No"}`)
+        .addField("Stacks?", isStackable)
         ;
       message.channel.send(msg);
     }); // forEach
