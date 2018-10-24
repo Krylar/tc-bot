@@ -57,7 +57,7 @@ exports.run = async (client, message, args, level) => {
       // iTS?
       var isIts;
       if(rr.tiersuppressionexempt == "Y") isIts = "Yes"
-      else if(rr.rr.tiersuppressionexempt == "N") isIts = "No"
+      else if(rr.tiersuppressionexempt == "N") isIts = "No"
       else isIts = "???";
 
       // Defensive Stance Exempt?
