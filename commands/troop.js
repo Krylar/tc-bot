@@ -10,7 +10,7 @@ exports.run = async (client, message, args, level) => {
 
   // Load TCR
   ndx = client.tcrTroops.worksheets.findIndex(n => n.title === "REF_Troops");
-  client.tcrTroops.getRows(ndx+1, {offset: 40}, function (err, rows) {
+  client.tcrTroops.getRows(ndx+1, {offset: 3}, function (err, rows) {
 //    console.log(`==> Keys: ${Object.keys(rows[0])}`);
 
     rows.forEach(rr => {
