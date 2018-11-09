@@ -11,7 +11,7 @@ exports.run = async (client, message, args, level) => {
 //    .then(updated => message.channel.send(`Channel (Bulletin): ${mBulletin}`));
 //  message.channel.send(`Merge bulletin channel: ${mBulletin.toString()}`);
 
-  tcFeedback.send(`${message.author}: ${args.join(" ")}`);
+  tcFeedback.send(`${message.author}: ${args.join(" ")}\n${message.url}`);
   message.channel.send("Feedback submitted to @Theorycrafter group. Thank you!");
 
 };
@@ -19,7 +19,7 @@ exports.run = async (client, message, args, level) => {
 exports.conf = {
   enabled: true,
   guildOnly: true,
-  aliases: [],
+  aliases: ["fb"],
   permLevel: "User"
 };
 
