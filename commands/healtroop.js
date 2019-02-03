@@ -56,15 +56,15 @@ const numberWithCommas = (x) => {
         n = Math.ceil(parseInt(rr.parts.replace(/,/g,'')) * quantity * modifier);
         msg += '\nParts: ' + numberWithCommas(n);
       }
-      if(rr.ele) {
+      if(parseInt(rr.ele) > 0) {
         n = Math.ceil(parseInt(rr.ele.replace(/,/g,'')) * quantity * modifier);
         msg += '\nEle: ' + numberWithCommas(n);
       }
-      if(rr.gas) {
+      if(parseInt(rr.gas) > 0) {
         n = Math.ceil(parseInt(rr.gas.replace(/,/g,'')) * quantity * modifier);
         msg += '\nGas: ' + numberWithCommas(n);
       }
-      if(rr.cash) {
+      if(parseInt(rr.cash) > 0) {
         n = Math.ceil(parseInt(rr.cash.replace(/,/g,'')) * quantity * modifier);
         msg += '\nCash: ' + numberWithCommas(n);
       }
@@ -80,7 +80,18 @@ const numberWithCommas = (x) => {
         n = Math.ceil(parseInt(rr.hc.replace(/,/g,'')) * quantity * modifier);
         msg += '\nHC: ' + numberWithCommas(n);
       }
-      msg += "\n```";
+
+      // Cost to heal with Meta Crystals
+      n = Math.ceil(parseInt(rr.mchealcost.replace(/,/g,'')) * quantity);
+      msg += "\n==> MC Heal: " + numberWithCommas(n);
+
+      // Hull dmg incurred from massacred troops
+      n = Math.ceil(parseInt(rr.arkhp.replace(/,/g,'')) * quantity);
+      msg += "\nMassacre Dmg: " + numberWithCommas(n);
+      //msg += "\nMassacre Hull Dmg: " + numberWithCommas(rr.ark_hp);
+      //msg += rr.flavor;
+
+      msg += "\n```"; // end code segment markdown
       message.reply(msg);
     }); // forEach
 
@@ -90,7 +101,7 @@ const numberWithCommas = (x) => {
 exports.conf = {
   enabled: true,
   guildOnly: true,
-  aliases: ["ht","healtroops"],
+  aliases: ["ht","healtroops","troopheal"],
   permLevel: "User"
 };
 
