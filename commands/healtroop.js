@@ -88,8 +88,10 @@ const numberWithCommas = (x) => {
       // Hull dmg incurred from massacred troops
       n = Math.ceil(parseInt(rr.arkhp.replace(/,/g,'')) * quantity);
       msg += "\nMassacre Dmg: " + numberWithCommas(n);
-      //msg += "\nMassacre Hull Dmg: " + numberWithCommas(rr.ark_hp);
-      //msg += rr.flavor;
+
+      // power
+      n = Math.ceil(parseInt(rr.power.replace(/,/g,'')) * quantity);
+      msg += "\nPower: " + numberWithCommas(n);
 
       msg += "\n```"; // end code segment markdown
       message.reply(msg);
