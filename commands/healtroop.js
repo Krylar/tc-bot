@@ -22,11 +22,11 @@ const numberWithCommas = (x) => {
       .replace(/^w$/i,"Walker")
       .replace(/^walk$/i,"Walker")
       .replace(/^wlk$/i,"Walker");
-    filter = `tier = ${troopTier} AND  type = "${troopType}"`;
+    filter = `tier = ${troopTier} AND type = "${troopType}" AND npc = "N"`;
   }
   else {
     let troopName = args[1];
-    filter = `troop = "${troopName}"`;
+    filter = `troop = "${troopName}`;
   }
 //  message.reply(`filter: ${filter}`);
 
