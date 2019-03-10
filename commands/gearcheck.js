@@ -45,6 +45,6 @@ exports.conf = {
 exports.help = {
   name: "gearcheck",
   category: "Calculators",
-  description: "Calculate stat at base and +10/20/30/40.",
+  description: "Calculate stat at base and +10/20/30/40/50.",
   usage: "gearcheck <stat> <level>"
 };
