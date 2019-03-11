@@ -114,6 +114,7 @@ const numberWithCommas = (x) => {
         msg += `\n\nTIP: Heal ${optQty}x troop`;
         if(optQty > 1) msg += 's';
         msg += ` at a time to heal at ${optModifier*100}% of training costs:`;
+        msg += `\n***Save rss but may cost more sm/uc/hc`;
         if(rr.food) {
           n = Math.ceil(parseInt(rr.food.replace(/,/g,'')) * quantity * optModifier);
           msg += '\nFood: ' + numberWithCommas(n);
@@ -135,15 +136,21 @@ const numberWithCommas = (x) => {
           msg += '\nCash: ' + numberWithCommas(n);
         }
         if(rr.sm) {
-          n = Math.ceil(parseInt(rr.sm.replace(/,/g,'')) * quantity * optModifier);
+          n = Math.ceil(parseInt(rr.sm.replace(/,/g,'')) * optModifier);
+          if(n<1) n = 1;
+          n = n * Math.ceil(quantity / optQty);
           msg += '\nSM: ' + numberWithCommas(n);
         }
         if(rr.uc) {
-          n = Math.ceil(parseInt(rr.uc.replace(/,/g,'')) * quantity * optModifier);
+          n = Math.ceil(parseInt(rr.uc.replace(/,/g,'')) * optModifier);
+          if(n<1) n = 1;
+          n = n * Math.ceil(quantity / optQty);
           msg += '\nUC: ' + numberWithCommas(n);
         }
         if(rr.hc) {
-          n = Math.ceil(parseInt(rr.hc.replace(/,/g,'')) * quantity * optModifier);
+          n = Math.ceil(parseInt(rr.hc.replace(/,/g,'')) * optModifier);
+          if(n<1) n = 1;
+          n = n * Math.ceil(quantity / optQty);
           msg += '\nHC: ' + numberWithCommas(n);
         }
       }
@@ -167,6 +174,6 @@ exports.conf = {
 exports.help = {
   name: "healtroop",
   category: "Calculators",
-  description: "Calculate cost to heal troops",
+  description: "Calculate cost to heal troops (ht)",
   usage: "healtroop <#> <tier> <type>"
 };
