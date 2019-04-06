@@ -93,6 +93,14 @@ const numberWithCommas = (x) => {
       n = Math.ceil(parseInt(rr.power.replace(/,/g,'')) * quantity);
       msg += "\nPower: " + numberWithCommas(n);
 
+      // kill event points
+      n = Math.ceil(parseInt(rr.ke.replace(/,/g,'')) * quantity);
+      msg += "\nKE Points: " + numberWithCommas(n);
+
+      // heal event points
+      n = Math.ceil(parseInt(rr.phe.replace(/,/g,'')) * quantity);
+      msg += "\nHeal Points: " + numberWithCommas(n);
+
 
 
       // healing optimization advisor
