@@ -44,7 +44,7 @@ const numberWithCommas = (x) => {
       else if(totalUnits >= 201) modifier = 0.15;
       else modifier = 0.10;
 
-      msg = `\`\`\`\nHealing ${quantity}x ${rr.troop} (T${rr.tier} ${rr.type}):`;
+      msg = `\`\`\`\nHealing ${numberWithCommas(quantity)}x ${rr.troop} (T${rr.tier} ${rr.type}):`;
       msg += '\nTotal Units: '
           + numberWithCommas(totalUnits)
           + ` @ ${modifier*100}% of training costs`;
@@ -122,7 +122,9 @@ const numberWithCommas = (x) => {
         msg += `\n\nTIP: Heal ${optQty}x troop`;
         if(optQty > 1) msg += 's';
         msg += ` at a time to heal at ${optModifier*100}% of training costs:`;
-        msg += `\n***Save rss but may cost more sm/uc/hc`;
+        if(rr.hc > 0 || rr.uc > 0 || rr.sm > 0) {
+          msg += `\n***Save rss but may cost more sm/uc/hc`;
+        }
         if(rr.food) {
           n = Math.ceil(parseInt(rr.food.replace(/,/g,'')) * quantity * optModifier);
           msg += '\nFood: ' + numberWithCommas(n);

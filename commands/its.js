@@ -2,6 +2,10 @@ exports.run = async (client, message, args, level) => {
   const friendly = client.config.permLevels.find(l => l.level === level).name;
   //message.reply(`Your permission level is: ${level} - ${friendly}`);
 
+const numberWithCommas = (x) => {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
   if(args.length < 3 || args.length > 3) {
     message.channel.send(`Need exactly 3 arguments!`);
     return;
@@ -23,12 +27,12 @@ exports.run = async (client, message, args, level) => {
 //      console.log(`numKills: ${numKills}`);
       type = rr.type.replace('Infantry','INF').replace('Walker','WLK').replace('Airship','AIR');
 //      console.log(`type: ${type}`);
-      msg += `\n- ${numKills<1 ? "??" : numKills}x ${rr.troop} \(T${targetTier} ${type}\)`;
+      msg += `\n- ${numKills<1 ? "??" : numberWithCommas(numKills)}x ${rr.troop} \(T${targetTier} ${type}\)`;
 //      console.log(msg);
     }); // forEach
 //  console.log(msg);
 
-  message.reply(`${leadership} leadership with level ${skillLevel} iTS skill can kill:${msg}`);
+  message.reply(`${numberWithCommas(leadership)} leadership with level ${skillLevel} iTS skill can kill:${msg}`);
   }); // getRows
 };
 
