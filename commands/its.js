@@ -7,7 +7,8 @@ const numberWithCommas = (x) => {
 }
 
   if(args.length < 3 || args.length > 3) {
-    message.channel.send(`Need exactly 3 arguments!`);
+    message.channel.send("`Invalid syntax! See help below:`");
+    client.commands.get("help").run(client, message, ["its"], level);
     return;
   };
   let skillLevel = args[0];
@@ -27,7 +28,7 @@ const numberWithCommas = (x) => {
 //      console.log(`numKills: ${numKills}`);
       type = rr.type.replace('Infantry','INF').replace('Walker','WLK').replace('Airship','AIR');
 //      console.log(`type: ${type}`);
-      msg += `\n- ${numKills<1 ? "??" : numberWithCommas(numKills)}x ${rr.troop} \(T${targetTier} ${type}\)`;
+      msg += `\n- ${numKills<0 ? "??" : numberWithCommas(numKills)}x ${rr.troop} \(T${targetTier} ${type}\)`;
 //      console.log(msg);
     }); // forEach
 //  console.log(msg);

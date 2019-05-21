@@ -3,7 +3,8 @@ exports.run = async (client, message, args, level) => {
   //message.reply(`Your permission level is: ${level} - ${friendly}`);
 
   if(args.length < 2 || args.length > 2) {
-    message.channel.send(`Missing arguments!`);
+    message.channel.send("`Invalid syntax! See help below:`");
+    client.commands.get("help").run(client, message, ["gearcheck"], level);
     return;
   };
   let statvalue = args[0];

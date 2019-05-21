@@ -7,7 +7,8 @@ const numberWithCommas = (x) => {
 }
 
   if(args.length < 2 || args.length > 3) {
-    message.reply(`Need 2-3 arguments!`);
+    message.channel.send("`Invalid syntax! See help below:`");
+    client.commands.get("help").run(client, message, ["healtroop"], level);
     return;
   };
   let quantity = args[0];
