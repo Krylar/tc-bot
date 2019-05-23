@@ -21,13 +21,15 @@ exports.run = async (client, message, args, level) => {
   };
 
   // Clear channel
-    let fetched;
-    fetched = await targetChannel.fetchMessages(100);
+  let fetched;
+  fetched = await targetChannel.fetchMessages(100);
 //    console.log(`Fetched ${fetched.size} messages.`);
-    fetched.forEach(f => {
+  fetched.forEach(f => {
 //      console.log("deleting messasge...");
-      f.delete();
-    });
+    f.delete();
+  });
+  if(fetched.size > 1)
+    return;
 //    console.log("done!");
 //return;
   var type = "";
