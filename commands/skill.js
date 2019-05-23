@@ -13,8 +13,25 @@ exports.run = async (client, message, args, level) => {
 //    return;
   };
 
-  var chSkill = message.guild.channels.find(ch => ch.name == "tc-skills");
+  var targetChannel = message.guild.channels.find(ch => ch.name == "tc-skills");
 
+  if(message.channel != targetChannel) {
+    message.reply(`Invalid channel! Please run in ${targetChannel}!`);
+    return;
+  };
+
+  // Clear channel
+  let fetched;
+  fetched = await targetChannel.fetchMessages();
+//    console.log(`Fetched ${fetched.size} messages.`);
+  fetched.forEach(f => {
+//      console.log("deleting messasge...");
+    f.delete();
+  });
+  if(fetched.size > 1)
+    return;
+//    console.log("done!");
+//return;
   var type = "";
   var msg = "";
 
