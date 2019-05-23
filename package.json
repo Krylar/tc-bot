@@ -1,6 +1,6 @@
 {
   "name": "tc-bot-dev",
-  "version": "1.3.16",
+  "version": "1.3.17",
   "description": "Theorycrafters bot",
   "main": "index.js",
   "scripts": {
