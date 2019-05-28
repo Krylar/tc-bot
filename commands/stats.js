@@ -1,6 +1,9 @@
 const { version } = require("discord.js");
 const moment = require("moment");
 require("moment-duration-format");
+//import {version as tcversion} from './package.json';
+//const tcversion = require('./package.json').version;
+const tcversion = require('project-version');
 
 exports.run = (client, message, args, level) => { // eslint-disable-line no-unused-vars
   const duration = moment.duration(client.uptime).format(" D [days], H [hrs], m [mins], s [secs]");
@@ -11,6 +14,7 @@ exports.run = (client, message, args, level) => { // eslint-disable-line no-unus
 • Users      :: ${client.users.size.toLocaleString()}
 • Servers    :: ${client.guilds.size.toLocaleString()}
 • Channels   :: ${client.channels.size.toLocaleString()}
+• TC Bot     :: ${tcversion}
 • Discord.js :: v${version}
 • Node       :: ${process.version}`, {code: "asciidoc"});
 };
