@@ -7,7 +7,8 @@ const numberWithCommas = (x) => {
 }
 
   if(args.length < 2 || args.length > 3) {
-    message.reply(`Need 2-3 arguments!`);
+    message.channel.send("`Invalid syntax! See help below:`");
+    client.commands.get("help").run(client, message, ["healtroop"], level);
     return;
   };
   let quantity = args[0];
@@ -22,17 +23,17 @@ const numberWithCommas = (x) => {
       .replace(/^w$/i,"Walker")
       .replace(/^walk$/i,"Walker")
       .replace(/^wlk$/i,"Walker");
-    filter = `tier = ${troopTier} AND  type = "${troopType}"`;
+    filter = `tier = ${troopTier} AND type = "${troopType}" AND npc = "N"`;
   }
   else {
     let troopName = args[1];
-    filter = `troop = "${troopName}"`;
+    filter = `troop = "${troopName}`;
   }
 //  message.reply(`filter: ${filter}`);
 
 
   // Load TCR
-  ndx = client.tcrTroops.worksheets.findIndex(n => n.title === "REF_Troops");
+  ndx = client.tcrTroops.worksheets.findIndex(n => n.title === "Troops");
   client.tcrTroops.getRows(ndx+1, {query: filter}, function (err, rows) {
     console.log(rows.length);
     rows.forEach(rr => {
@@ -44,7 +45,7 @@ const numberWithCommas = (x) => {
       else if(totalUnits >= 201) modifier = 0.15;
       else modifier = 0.10;
 
-      msg = `\`\`\`\nHealing ${quantity}x ${rr.troop} (T${rr.tier} ${rr.type}):`;
+      msg = `\`\`\`\nHealing ${numberWithCommas(quantity)}x ${rr.troop} (T${rr.tier} ${rr.type}):`;
       msg += '\nTotal Units: '
           + numberWithCommas(totalUnits)
           + ` @ ${modifier*100}% of training costs`;
@@ -56,15 +57,15 @@ const numberWithCommas = (x) => {
         n = Math.ceil(parseInt(rr.parts.replace(/,/g,'')) * quantity * modifier);
         msg += '\nParts: ' + numberWithCommas(n);
       }
-      if(rr.ele) {
+      if(parseInt(rr.ele) > 0) {
         n = Math.ceil(parseInt(rr.ele.replace(/,/g,'')) * quantity * modifier);
         msg += '\nEle: ' + numberWithCommas(n);
       }
-      if(rr.gas) {
+      if(parseInt(rr.gas) > 0) {
         n = Math.ceil(parseInt(rr.gas.replace(/,/g,'')) * quantity * modifier);
         msg += '\nGas: ' + numberWithCommas(n);
       }
-      if(rr.cash) {
+      if(parseInt(rr.cash) > 0) {
         n = Math.ceil(parseInt(rr.cash.replace(/,/g,'')) * quantity * modifier);
         msg += '\nCash: ' + numberWithCommas(n);
       }
@@ -80,7 +81,94 @@ const numberWithCommas = (x) => {
         n = Math.ceil(parseInt(rr.hc.replace(/,/g,'')) * quantity * modifier);
         msg += '\nHC: ' + numberWithCommas(n);
       }
-      msg += "\n```";
+
+      // Cost to heal with Meta Crystals
+      n = Math.ceil(parseInt(rr.mchealcost.replace(/,/g,'')) * quantity);
+      msg += "\n\n==> MC Heal: " + numberWithCommas(n);
+
+      // Hull dmg incurred from massacred troops
+      n = Math.ceil(parseInt(rr.arkhp.replace(/,/g,'')) * quantity);
+      msg += "\nMassacre Dmg: " + numberWithCommas(n);
+
+      // power
+      n = Math.ceil(parseInt(rr.power.replace(/,/g,'')) * quantity);
+      msg += "\nPower: " + numberWithCommas(n);
+
+      // kill event points
+      n = Math.ceil(parseInt(rr.ke.replace(/,/g,'')) * quantity);
+      msg += "\nKE Points: " + numberWithCommas(n);
+
+      // heal event points
+      n = Math.ceil(parseInt(rr.phe.replace(/,/g,'')) * quantity);
+      msg += "\nHeal Points: " + numberWithCommas(n);
+
+
+
+      // healing optimization advisor
+      if(rr.units < 201) {optModifier = 0.10; optUnits = 200;}
+      else if(rr.units < 501) {optModifier = 0.15; optUnits = 500;}
+      else if(rr.units < 901) {optModifier = 0.17; optUnits = 900;}
+      else if(rr.units < 1501) {optModifier = 0.19; optUnits = 1500;}
+      else if(rr.units < 3501) {optModifier = 0.22; optUnits = 3500;}
+      else {optModifier = 0.25; optUnits = -1;};
+
+      if(optModifier < modifier) {
+
+//        msg += '\n\nrr.units: ' + rr.units;
+//        msg += '\noptModifier: ' + optModifier;
+//        msg += '\noptUnits: ' + optUnits;
+        optQty = Math.floor(optUnits / rr.units);
+//        msg += '\noptQty: ' + optQty;
+
+        msg += `\n\nTIP: Heal ${optQty}x troop`;
+        if(optQty > 1) msg += 's';
+        msg += ` at a time to heal at ${optModifier*100}% of training costs:`;
+        if(rr.hc > 0 || rr.uc > 0 || rr.sm > 0) {
+          msg += `\n***Save rss but may cost more sm/uc/hc`;
+        }
+        if(rr.food) {
+          n = Math.ceil(parseInt(rr.food.replace(/,/g,'')) * quantity * optModifier);
+          msg += '\nFood: ' + numberWithCommas(n);
+        }
+        if(rr.parts) {
+          n = Math.ceil(parseInt(rr.parts.replace(/,/g,'')) * quantity * optModifier);
+          msg += '\nParts: ' + numberWithCommas(n);
+        }
+        if(parseInt(rr.ele) > 0) {
+          n = Math.ceil(parseInt(rr.ele.replace(/,/g,'')) * quantity * optModifier);
+          msg += '\nEle: ' + numberWithCommas(n);
+        }
+        if(parseInt(rr.gas) > 0) {
+          n = Math.ceil(parseInt(rr.gas.replace(/,/g,'')) * quantity * optModifier);
+          msg += '\nGas: ' + numberWithCommas(n);
+        }
+        if(parseInt(rr.cash) > 0) {
+          n = Math.ceil(parseInt(rr.cash.replace(/,/g,'')) * quantity * optModifier);
+          msg += '\nCash: ' + numberWithCommas(n);
+        }
+        if(rr.sm) {
+          n = Math.ceil(parseInt(rr.sm.replace(/,/g,'')) * optModifier);
+          if(n<1) n = 1;
+          n = n * Math.ceil(quantity / optQty);
+          msg += '\nSM: ' + numberWithCommas(n);
+        }
+        if(rr.uc) {
+          n = Math.ceil(parseInt(rr.uc.replace(/,/g,'')) * optModifier);
+          if(n<1) n = 1;
+          n = n * Math.ceil(quantity / optQty);
+          msg += '\nUC: ' + numberWithCommas(n);
+        }
+        if(rr.hc) {
+          n = Math.ceil(parseInt(rr.hc.replace(/,/g,'')) * optModifier);
+          if(n<1) n = 1;
+          n = n * Math.ceil(quantity / optQty);
+          msg += '\nHC: ' + numberWithCommas(n);
+        }
+      }
+
+
+
+      msg += "\n```"; // end code segment markdown
       message.reply(msg);
     }); // forEach
 
@@ -90,13 +178,13 @@ const numberWithCommas = (x) => {
 exports.conf = {
   enabled: true,
   guildOnly: true,
-  aliases: ["ht","healtroops"],
+  aliases: ["ht","healtroops","troopheal"],
   permLevel: "User"
 };
 
 exports.help = {
   name: "healtroop",
   category: "Calculators",
-  description: "Calculate cost to heal troops",
+  description: "Calculate cost to heal troops (ht)",
   usage: "healtroop <#> <tier> <type>"
 };
