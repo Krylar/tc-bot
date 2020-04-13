@@ -13,6 +13,8 @@ exports.run = async (client, message, args, level) => {
   base = base.toFixed(2);
   let base10 = base * 2;
   base10 = base10.toFixed(2);
+  let base13 = base * 2.3;
+  base13 = base13.toFixed(2);
   let base20 = base * 3;
   base20 = base20.toFixed(2);
   let base30 = base * 4;
@@ -28,6 +30,7 @@ exports.run = async (client, message, args, level) => {
 \`\`\`asciidoc
 Base stat:: ${base}%
   @ +10:: ${base10}%
+  @ +13:: ${base13}%
   @ +20:: ${base20}%
   @ +30:: ${base30}%
   @ +40:: ${base40}%

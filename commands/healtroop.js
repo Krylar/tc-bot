@@ -33,7 +33,7 @@ const numberWithCommas = (x) => {
 
 
   // Load TCR
-  ndx = client.tcrTroops.worksheets.findIndex(n => n.title === "REF_Troops");
+  ndx = client.tcrTroops.worksheets.findIndex(n => n.title === "Troops");
   client.tcrTroops.getRows(ndx+1, {query: filter}, function (err, rows) {
     console.log(rows.length);
     rows.forEach(rr => {

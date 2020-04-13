@@ -16,7 +16,7 @@ module.exports = (client, message) => {
   const settings = message.settings = client.getGuildSettings(message.guild);
 
   // ***** OCR search *****
-  if(message.channel.name == "albums") {
+  if(message.channel.name == "albums" || message.channel.name == "please_kindly_know") {
     console.log("message detected!");
     message.attachments.forEach(a => {
       console.log(`new attachment: ${a.url}`);
