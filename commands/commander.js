@@ -49,7 +49,7 @@ exports.run = async (client, message, args, level) => {
     console.log("Keys: " + Object.keys(rows[0]));
 
     rows.forEach(rr => {
-      console.log(`==> Commander: ${rr.name}`);
+      console.log(`==> Commander: ${rr.name}\n\tImgSrc: ${rr.imgsrc}`);
 
       type = rr.triggertype3;
       var event10chance = "";
@@ -74,9 +74,11 @@ exports.run = async (client, message, args, level) => {
       
       msg = new Discord.RichEmbed()
 
-        .setAuthor(`${rr.name || ""} (${rr.class || ""})`)
+        //.setAuthor(`${rr.name || ""} (${rr.class || ""})`)
+        .setTitle(`${rr.name || ""} (${rr.class || ""})`)
+        .setDescription(rr.lore)
         //        .setTitle(`${rr.name||""} (${rr.class||""})`)
-        .setThumbnail(rr.imgsrc || "")
+        .setThumbnail(rr.imgsrc || "https://docs.google.com/uc?export=download&confirm=no_antivirus&id=1YYkvsz_VrmfBPGkQ7md72YAV2vh7pbMb")
         .setColor(color)
         //        .addField(`${rr.skill1}`,`**Lv. 1**\n__**${rr.triggertype1}**__ ${rr.description1}`)
         //        .addField(`${rr.skill2}`,`**Lv. 1**\n__**${rr.triggertype2}**__ ${rr.description2}`)
