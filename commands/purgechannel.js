@@ -16,27 +16,29 @@ exports.run = async (client, message, args, level) => {
 
   // Clear channel
   let fetched;
-  fetched = await targetChannel.fetchMessages({ limit: 100 });
+/*  fetched = await targetChannel.fetchMessages({ limit: 100 });
   message.channel.bulkDelete(fetched, true)
     .catch(error => message.channel.send(`Error: ${error}`));
-/*  fetched = await targetChannel.fetchMessages({ limit: 100 });
-  fetched.forEach(f => {
-    f.delete();
-  });
 */
+ fetched = await targetChannel.fetchMessages({ limit: 100 });
+  fetched.forEach(f => {
+    f.delete()
+      .catch(error => message.channel.send(`Error: ${error}`));
+  });
+
 
 };
 
 exports.conf = {
   enabled: true,
   guildOnly: true,
-  aliases: ["cc"],
+  aliases: ["pc"],
   permLevel: "Administrator"
 };
 
 exports.help = {
-  name: "clearchannel",
+  name: "purgechannel",
   category: "Admin",
   description: "Delete all messages in current channel",
-  usage: "clearchannel theorycrafter"
+  usage: "purgechannel theorycrafter"
 };

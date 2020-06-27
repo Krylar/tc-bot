@@ -21,7 +21,7 @@ exports.run = async (client, message, args, level) => {
   };
 
   // Clear channel
-  let fetched;
+/*  let fetched;
   fetched = await targetChannel.fetchMessages(100);
 //    console.log(`Fetched ${fetched.size} messages.`);
   fetched.forEach(f => {
@@ -30,6 +30,7 @@ exports.run = async (client, message, args, level) => {
   });
   if(fetched.size > 1)
     return;
+*/
 //    console.log("done!");
 //return;
   var type = "";
@@ -46,7 +47,8 @@ exports.run = async (client, message, args, level) => {
     }
 //    else console.log(`==> Commander: ${rows[0].name}`);
     rows.forEach(rr => {
-      console.log(`==> Commander: ${rr.skill}`);
+//      console.log(`==> Skill: ${rr.skill}`);
+      console.log(`==> Skill: ${rr.skill}\n\tImgSrc: ${rr.imgurl}`);
 
       type = rr.triggertype;
       event10chance = "";
@@ -88,11 +90,12 @@ exports.run = async (client, message, args, level) => {
       if(rr.stacks == "Y") isStackable = "Yes"
       else if(rr.stacks == "N") isStackable = "No"
       else isStackable = "???";
-console.log(`rr.imgurl=${rr.imgurl}`);
+//console.log(`rr.imgurl=${rr.imgurl}`);
       msg = new Discord.RichEmbed()
         .setTitle(`${rr.skill||""} (${type})`)
 //         .setTitle(type)
 //        .setTitle(`${rr.name||""} (${rr.class||""})`)
+//        .setThumbnail(rr.imgurl||"https://docs.google.com/uc?export=download&confirm=no_antivirus&id=1YYkvsz_VrmfBPGkQ7md72YAV2vh7pbMb")
         .setThumbnail(rr.imgurl||"")
         .setColor(color)
         .setDescription(rr.description)
